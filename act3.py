@@ -24,8 +24,8 @@ for index in range(len(bunch_dataset['data'])):
         "target": bunch_dataset['target'][index]
     })
 
-# desordena los datos para que no queden las clases juntas
-random.shuffle(labeled_dataset)
+# # desordena los datos para que no queden las clases juntas
+# random.shuffle(labeled_dataset)
 
 # realiza una decodificacion de la imagen en PNG a un tensor normalizado (solo de la data que se va a usar TOTAL_DATA)
 with tf.Session() as sess:
@@ -41,7 +41,8 @@ model.add(tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28,
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
 model.add(tf.keras.layers.MaxPooling2D((2, 2)))
-model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(tf.keras.layers.Conv2D(128, (3, 3), activation='relu'))
+model.add(tf.keras.layers.MaxPooling2D((2, 2)))
 
 # input como vector de 784 valores
 model.add(tf.keras.layers.Flatten(input_shape=(28, 28, 1)))
