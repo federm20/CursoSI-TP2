@@ -1,7 +1,6 @@
 # Create your first MLP in Keras
 import tensorflow as tf
 import numpy as np
-import random
 import sklearn.datasets as skdataset
 from collections import Counter
 
@@ -24,16 +23,13 @@ for index in range(len(bunch_dataset['data'])):
         "target": bunch_dataset['target'][index]
     })
 
-# # desordena los datos para que no queden las clases juntas
-# random.shuffle(labeled_dataset)
-
 # realiza una decodificacion de la imagen en PNG a un tensor normalizado (solo de la data que se va a usar TOTAL_DATA)
 with tf.Session() as sess:
     for data in labeled_dataset[:TOTAL_DATA]:
         data["image_tensor"] = sess.run(tf.image.decode_png(data['image_png'], channels=1)) / 255.0
         print('Load image: ', data['file'])
 
-# crea el modelo a usar en Keras (capaz secuenciales sin recurrencias)
+# crea el modelo a usar en Keras (capas secuenciales sin recurrencias)
 model = tf.keras.Sequential()
 
 # arquitectura ConvNet
