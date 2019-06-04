@@ -74,7 +74,7 @@ pyplot.show()
 # ---------------------- salidas de capa de convolucion y pooling -----------------------------
 
 # extrae salida de cada capa
-layer_outputs = [layer.output for layer in model.layers[:14]]
+layer_outputs = [layer.output for layer in model.layers]
 # genera un nuevo modelo para obtener las salidas
 activation_model = tf.keras.models.Model(inputs=model.input, outputs=layer_outputs)
 # obtiene parametros para un ejemplo de validacion
@@ -86,8 +86,10 @@ second_layer_activation = activations[1]
 third_layer_activation = activations[2]
 fourth_layer_activation = activations[3]
 
+# imagen original
 pyplot.matshow(np.array(X_test[0])[:, :, 0], cmap='gray')
 
+# salida primera capa - conv2d 32 neuronas
 pyplot.figure(figsize=(28, 28))
 for index in range(32):
     pyplot.subplot(4, 8, index + 1)
@@ -97,6 +99,7 @@ for index in range(32):
     pyplot.imshow(first_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
 pyplot.show()
 
+# salida segunda capa - pooling
 pyplot.figure(figsize=(28, 28))
 for index in range(32):
     pyplot.subplot(4, 8, index + 1)
@@ -106,6 +109,7 @@ for index in range(32):
     pyplot.imshow(second_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
 pyplot.show()
 
+# salida tercera capa - conv2d 64 neuronas
 pyplot.figure(figsize=(28, 28))
 for index in range(64):
     pyplot.subplot(8, 8, index + 1)
@@ -115,6 +119,7 @@ for index in range(64):
     pyplot.imshow(third_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
 pyplot.show()
 
+# salida cuarta capa - pooling
 pyplot.figure(figsize=(28, 28))
 for index in range(64):
     pyplot.subplot(8, 8, index + 1)
