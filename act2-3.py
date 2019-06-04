@@ -17,7 +17,6 @@ with tf.Session() as sess:
         bunch_dataset["image_tensor"].append(sess.run(tf.image.decode_png(image_png, channels=1)) / 255.0)
         print('Loading image ', len(bunch_dataset["image_tensor"]))
 
-
 # separa datos para entrenamiento y testeo
 X_train, X_test, y_train, y_test = train_test_split(bunch_dataset['image_tensor'], bunch_dataset['target'],
                                                     test_size=0.25)
@@ -60,12 +59,67 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=
 # Entrena el modelo
 history = model.fit(np.array(X_train), y_train, validation_data=(np.array(X_test), y_test), epochs=100)
 
+# imprime en consola un resumen del entrenamiento
 print('-----------------------------------------------------------')
 print(model.summary())
 print(history)
 print('-----------------------------------------------------------')
 
+# grafica el valor de precision durante el entrenamiento y la validacion de cada epoca
 pyplot.plot(history.history['acc'], label='train')
 pyplot.plot(history.history['val_acc'], label='test')
 pyplot.legend()
+pyplot.show()
+
+# ---------------------- salidas de capa de convolucion y pooling -----------------------------
+
+# extrae salida de cada capa
+layer_outputs = [layer.output for layer in model.layers[:14]]
+# genera un nuevo modelo para obtener las salidas
+activation_model = tf.keras.models.Model(inputs=model.input, outputs=layer_outputs)
+# obtiene parametros para un ejemplo de validacion
+activations = activation_model.predict(np.expand_dims(X_test[0], axis=0))
+
+# realiza gráficas de la salida de cada capa (convolucion y pooling)
+first_layer_activation = activations[0]
+second_layer_activation = activations[1]
+third_layer_activation = activations[2]
+fourth_layer_activation = activations[3]
+
+pyplot.matshow(np.array(X_test[0])[:, :, 0], cmap='gray')
+
+pyplot.figure(figsize=(28, 28))
+for index in range(32):
+    pyplot.subplot(4, 8, index + 1)
+    pyplot.xticks([])
+    pyplot.yticks([])
+    pyplot.grid(False)
+    pyplot.imshow(first_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
+pyplot.show()
+
+pyplot.figure(figsize=(28, 28))
+for index in range(32):
+    pyplot.subplot(4, 8, index + 1)
+    pyplot.xticks([])
+    pyplot.yticks([])
+    pyplot.grid(False)
+    pyplot.imshow(second_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
+pyplot.show()
+
+pyplot.figure(figsize=(28, 28))
+for index in range(64):
+    pyplot.subplot(8, 8, index + 1)
+    pyplot.xticks([])
+    pyplot.yticks([])
+    pyplot.grid(False)
+    pyplot.imshow(third_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
+pyplot.show()
+
+pyplot.figure(figsize=(28, 28))
+for index in range(64):
+    pyplot.subplot(8, 8, index + 1)
+    pyplot.xticks([])
+    pyplot.yticks([])
+    pyplot.grid(False)
+    pyplot.imshow(fourth_layer_activation[0, :, :, index], cmap=pyplot.cm.binary)
 pyplot.show()
