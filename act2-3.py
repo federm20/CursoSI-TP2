@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from matplotlib import pyplot
 
 # obtiene las imagenes y su clasificacion
-bunch_dataset = skdataset.load_files("shapes2/")
+bunch_dataset = skdataset.load_files("train-shapes/")
 
 # inicializa array de tensores
 bunch_dataset["image_tensor"] = []
@@ -67,9 +67,24 @@ print('-----------------------------------------------------------')
 
 # grafica el valor de precision durante el entrenamiento y la validacion de cada epoca
 pyplot.plot(history.history['acc'], label='train')
-pyplot.plot(history.history['val_acc'], label='test')
+pyplot.plot(history.history['val_acc'], label='test-shapes')
 pyplot.legend()
 pyplot.show()
+
+# predice para 5 ejemplos dificiles
+print('-----------------------------------------------------------')
+
+bunch_datatest = skdataset.load_files("test-shapes/")
+bunch_datatest["image_tensor"] = []
+
+with tf.Session() as sess:
+    for image_png in bunch_datatest['data']:
+        bunch_datatest["image_tensor"].append(sess.run(tf.image.decode_png(image_png, channels=1)) / 255.0)
+
+predictions = model.predict(np.array(bunch_datatest["image_tensor"]))
+print(predictions)
+print([(np.argmax(prediction), bunch_datatest["target"][index]) for index, prediction in enumerate(predictions)])
+print('-----------------------------------------------------------')
 
 # ---------------------- salidas de capa de convolucion y pooling -----------------------------
 

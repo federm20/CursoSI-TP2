@@ -10,7 +10,7 @@ for i in range(100):
     x1 = random.randint(14,28)
     y1 = random.randint(14,28)
     draw.rectangle((x0, y0, x1, y1), fill='black', outline='red')  # can vary this bit to draw different shapes in different positions
-    image.save('./shapes2/rectangle/rectangle' + str(i) + '.png')
+    image.save('./train-shapes/rectangle/rectangle' + str(i) + '.png')
 
 # draw ellipse
 for i in range(100):
@@ -21,7 +21,7 @@ for i in range(100):
     x1 = random.randint(14,28)
     y1 = random.randint(14,28)
     draw.ellipse((x0, y0, x1, y1), fill='black', outline='red')  # can vary this bit to draw different shapes in different positions
-    image.save('./shapes2/ellipse/ellipse' + str(i) + '.png')
+    image.save('./train-shapes/ellipse/ellipse' + str(i) + '.png')
 
 # draw circle
 for i in range(100):
@@ -33,7 +33,7 @@ for i in range(100):
     x1 = x0 + dif
     y1 = y0 + dif
     draw.ellipse((x0, y0, x1, y1), fill='black', outline='red')  # can vary this bit to draw different shapes in different positions
-    image.save('./shapes2/circle/circle' + str(i) + '.png')
+    image.save('./train-shapes/circle/circle' + str(i) + '.png')
 
 # draw square
 for i in range(50):
@@ -45,7 +45,7 @@ for i in range(50):
     x1 = x0 + dif
     y1 = y0 + dif
     draw.rectangle((x0, y0, x1, y1), fill='black', outline='red')  # can vary this bit to draw different shapes in different positions
-    image.save('./shapes2/square/square' + str(i) + '.png')
+    image.save('./train-shapes/square/square' + str(i) + '.png')
 
 # draw triangle
 for i in range(50):
@@ -58,4 +58,4 @@ for i in range(50):
     x2 = random.randint(1,27)
     y2 = random.randint(1,27)
     draw.polygon([(x0, y0), (x1, y1), (x2, y2)], fill='black', outline='red')  # can vary this bit to draw different shapes in different positions
-    image.save('./shapes2/triangle/triangle' + str(i) + '.png')
+    image.save('./train-shapes/triangle/triangle' + str(i) + '.png')
